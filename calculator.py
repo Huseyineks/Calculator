@@ -8,6 +8,9 @@ class Calculator:
        self.root.title("Calculator")
        self.root.geometry("800x500")
        self.int = tk.IntVar()
+       self.int.set(0)
+       self.num = 0
+       
        self.frame = tk.Frame(self.root,width=500)
        self.frame.columnconfigure(0,weight=1)
        self.frame.columnconfigure(1,weight=1)
@@ -18,9 +21,8 @@ class Calculator:
        self.operator = ['/','+','-','x']
        self.numbers = []
        self.operation = []
-       self.again = 0
-       self.entry = tk.Entry(self.frame,textvariable=self.int)
-       self.entry.grid(row=0,column=0,columnspan=4)
+       self.label = tk.Label(self.frame,text = " ")
+       self.label.grid(row=0,column=0,columnspan=4)
        btn1 = tk.Button(self.frame,text="1",height=7,width=10,command=lambda: self.calculate(1))
        btn1.grid(row=3,column=0)
        btn2 = tk.Button(self.frame,text="2",height=7,width=10,command=lambda: self.calculate(2))
@@ -63,26 +65,43 @@ class Calculator:
        
     def calculate(self,num):
       if num in self.operator:
-         if self.again == 0:
-          self.numbers.append(self.int.get())
-         self.operation.append(num)
-         self.int.set(0)
-         self.again = 0
-         return
+         
+        #  self.numbers.append(self.int.get())
+      
+        self.numbers.append(self.num)
+        self.operation.append(num)
+        text1 = self.label.cget("text")
+        self.label.config(text=text1 + num)
+        
+        
+         
+         
+        #  self.int.set(0)
+        self.num = 0
+
+         
+        return
       elif num == -1:
-         self.int.set(0)
+         self.label.config(text = "")
+        #  self.int.set(0)
+         self.num = 0
          self.numbers = []
          self.operation = []
-         self.again = 0
+         
          
          return
-      num1 = self.int.get()*10 + num
-      self.int.set(num1)    
+      # num1 = self.int.get()*10 + num
+      num1 = self.num*10 + num
+      # self.int.set(num1)
+      self.num = num1
+        
+      self.label.config(text = f"{num1}")
+          
       
-
     def result(self):
       sum = 0
-      self.numbers.append(self.int.get())
+      # self.numbers.append(self.int.get())
+      self.numbers.append(self.num)
       
       while len(self.operation) > 0:
         if self.check() == 1 or self.check() == 2:
@@ -99,9 +118,13 @@ class Calculator:
          sum = self.numbers[index] + self.numbers[index+1]
          self.numbers[index] = sum
          self.numbers.pop(index+1)
-         self.operation.pop(index)   
-      self.int.set(self.numbers[0])
-      self.again = 1
+         self.operation.pop(index)
+           
+      self.label.config(text = f"{self.numbers[0]}")
+      
+      # self.int.set(self.numbers[0])
+      self.num = self.numbers[0]
+      self.numbers = []
       
         
     def check(self):

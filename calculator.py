@@ -10,7 +10,7 @@ class Calculator:
        self.int = tk.IntVar()
        self.int.set(0)
        self.num = 0
-       
+       self.count = 0
        self.frame = tk.Frame(self.root,width=500)
        self.frame.columnconfigure(0,weight=1)
        self.frame.columnconfigure(1,weight=1)
@@ -21,6 +21,8 @@ class Calculator:
        self.operator = ['/','+','-','x']
        self.numbers = []
        self.operation = []
+       self.splitString = ''
+       self.lastIndex = -1
        self.label = tk.Label(self.frame,text = " ")
        self.label.grid(row=0,column=0,columnspan=4)
        btn1 = tk.Button(self.frame,text="1",height=7,width=10,command=lambda: self.calculate(1))
@@ -64,6 +66,7 @@ class Calculator:
       
        
     def calculate(self,num):
+      
       if num in self.operator:
          
         #  self.numbers.append(self.int.get())
@@ -72,7 +75,14 @@ class Calculator:
         self.operation.append(num)
         text1 = self.label.cget("text")
         self.label.config(text=text1 + num)
-        
+        recentOperator = num
+        text2 = str(self.label.cget("text"))
+        # self.splitString = text2[:(text2.index(recentOperator)+1)]
+      
+        self.splitString = text2[:(text2.find(recentOperator,self.lastIndex+1,len(text2))+1)]
+
+
+        self.lastIndex = (text2.find(recentOperator,self.lastIndex+1,len(text2))+1)  
         
          
          
@@ -87,6 +97,9 @@ class Calculator:
          self.num = 0
          self.numbers = []
          self.operation = []
+         self.splitString = ''
+         self.lastIndex = -1
+         
          
          
          return
@@ -94,9 +107,16 @@ class Calculator:
       num1 = self.num*10 + num
       # self.int.set(num1)
       self.num = num1
-        
-      self.label.config(text = f"{num1}")
-          
+      string = str(self.label.cget("text")).strip(' ')
+      
+      if self.bool(string):
+       
+       self.label.config(text = f"{num1}")
+      elif True:
+       
+       self.label.config(text= self.splitString + f"{num1}") 
+      else:
+        pass   
       
     def result(self):
       sum = 0
@@ -125,6 +145,8 @@ class Calculator:
       # self.int.set(self.numbers[0])
       self.num = self.numbers[0]
       self.numbers = []
+      self.splitString = ''
+      self.lastIndex = -1
       
         
     def check(self):
@@ -155,7 +177,14 @@ class Calculator:
        self.numbers.pop(index+1)
        self.operation.pop(index)
       else:
-        pass    
+        pass  
+    def bool(self,str):
+
+      try:
+        check = float(str)
+        return True
+      except:
+        return False    
       
        
 

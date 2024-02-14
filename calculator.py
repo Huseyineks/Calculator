@@ -1,17 +1,18 @@
 import tkinter as tk
-
+import customtkinter as ct
 class Calculator:
    
 
     def __init__(self):
-       self.root = tk.Tk()
+       self.root = ct.CTk()
        self.root.title("Calculator")
-       self.root.geometry("800x500")
-       self.int = tk.IntVar()
+       
+       self.int = ct.IntVar()
        self.int.set(0)
        self.num = 0
        self.count = 0
-       self.frame = tk.Frame(self.root,width=500)
+       self.frame = ct.CTkFrame(self.root,fg_color="white")
+       self.root.resizable(False,False)
        self.frame.columnconfigure(0,weight=1)
        self.frame.columnconfigure(1,weight=1)
        self.frame.columnconfigure(2,weight=1)
@@ -23,42 +24,41 @@ class Calculator:
        self.operation = []
        self.splitString = ''
        self.lastIndex = -1
-       self.label = tk.Label(self.frame,text = " ")
+       self.label = ct.CTkLabel(self.frame,text = " ",height=100,width=100)
+       
        self.label.grid(row=0,column=0,columnspan=4)
-       btn1 = tk.Button(self.frame,text="1",height=7,width=10,command=lambda: self.calculate(1))
+       btn1 = ct.CTkButton(self.frame,text="1",height=50,width=50,command=lambda: self.calculate(1),fg_color="green")
        btn1.grid(row=3,column=0)
-       btn2 = tk.Button(self.frame,text="2",height=7,width=10,command=lambda: self.calculate(2))
+       btn2 = ct.CTkButton(self.frame,text="2",height=50,width=50,command=lambda: self.calculate(2),fg_color="green")
        btn2.grid(row=3,column=1)
-       btn3 = tk.Button(self.frame,text="3",height=7,width=10,command=lambda: self.calculate(3))
+       btn3 = ct.CTkButton(self.frame,text="3",height=50,width=50,command=lambda: self.calculate(3),fg_color="green")
        btn3.grid(row=3,column=2)
-       btn4 = tk.Button(self.frame,text="4",height=7,width=10,command=lambda: self.calculate(4))
+       btn4 = ct.CTkButton(self.frame,text="4",height=50,width=50,command=lambda: self.calculate(4),fg_color="green")
        btn4.grid(row=2,column=0)
-       btn5 = tk.Button(self.frame,text="5",height=7,width=10,command=lambda: self.calculate(5))
+       btn5 = ct.CTkButton(self.frame,text="5",height=50,width=50,command=lambda: self.calculate(5),fg_color="green")
        btn5.grid(row=2,column=1)
-       btn6 = tk.Button(self.frame,text="6",height=7,width=10,command=lambda: self.calculate(6))
+       btn6 = ct.CTkButton(self.frame,text="6",height=50,width=50,command=lambda: self.calculate(6),fg_color="green")
        btn6.grid(row=2,column=2)
-       btn7 = tk.Button(self.frame,text="7",height=7,width=10,command=lambda: self.calculate(7))
+       btn7 = ct.CTkButton(self.frame,text="7",height=50,width=50,command=lambda: self.calculate(7),fg_color="green")
        btn7.grid(row=1,column=0)
-       btn8 = tk.Button(self.frame,text="8",height=7,width=10,command=lambda: self.calculate(8))
+       btn8 = ct.CTkButton(self.frame,text="8",height=50,width=50,command=lambda: self.calculate(8),fg_color="green")
        btn8.grid(row=1,column=1)
-       btn9 = tk.Button(self.frame,text="9",height=7,width=10,command=lambda: self.calculate(9))
+       btn9 = ct.CTkButton(self.frame,text="9",height=50,width=50,command=lambda: self.calculate(9),fg_color="green")
        btn9.grid(row=1,column=2)
-       btn10 = tk.Button(self.frame,text="0",height=7,width=10,command=lambda: self.calculate(0))
+       btn10 = ct.CTkButton(self.frame,text="0",height=50,width=50,command=lambda: self.calculate(0),fg_color="green")
        btn10.grid(row=4,column=0)
-       btn10 = tk.Button(self.frame,text=",",height=7,width=10,command=lambda: self.calculate(0))
-       btn10.grid(row=4,column=1)
-       btn11 = tk.Button(self.frame,text="AC",height=7,width=10,command=lambda: self.calculate(-1))
-       btn11.grid(row=4,column=2)
-       btn12 = tk.Button(self.frame,text="÷",height=7,width=10,command=lambda: self.calculate('/'))
+       btn11 = ct.CTkButton(self.frame,text="AC",height=50,width=50,command=lambda: self.calculate(-1),fg_color="green")
+       btn11.grid(row=4,column=1)
+       btn12 = ct.CTkButton(self.frame,text="÷",height=50,width=50,command=lambda: self.calculate('/'),fg_color="green")
        btn12.grid(row=1,column=3)
-       btn13 = tk.Button(self.frame,text="x",height=7,width=10,command=lambda: self.calculate('x'))
+       btn13 = ct.CTkButton(self.frame,text="x",height=50,width=50,command=lambda: self.calculate('x'),fg_color="green")
        btn13.grid(row=2,column=3)
-       btn14 = tk.Button(self.frame,text="-",height=7,width=10,command=lambda: self.calculate('-'))
+       btn14 = ct.CTkButton(self.frame,text="-",height=50,width=50,command=lambda: self.calculate('-'),fg_color="green")
        btn14.grid(row=3,column=3)
-       btn15 = tk.Button(self.frame,text="+",height=7,width=10,command=lambda: self.calculate('+'))
+       btn15 = ct.CTkButton(self.frame,text="+",height=50,width=50,command=lambda: self.calculate('+'),fg_color="green")
        btn15.grid(row=4,column=3)
-       btn15 = tk.Button(self.frame,text="=",height=7,width=10,command=lambda: self.result())
-       btn15.grid(row=4,column=4)
+       btn15 = ct.CTkButton(self.frame,text="=",height=50,width=50,command=lambda: self.result(),fg_color="green")
+       btn15.grid(row=4,column=2)
       
        
        
@@ -74,7 +74,7 @@ class Calculator:
         self.numbers.append(self.num)
         self.operation.append(num)
         text1 = self.label.cget("text")
-        self.label.config(text=text1 + num)
+        self.label.configure(text=text1 + num)
         recentOperator = num
         text2 = str(self.label.cget("text"))
         # self.splitString = text2[:(text2.index(recentOperator)+1)]
@@ -92,7 +92,7 @@ class Calculator:
          
         return
       elif num == -1:
-         self.label.config(text = "")
+         self.label.configure(text = "")
         #  self.int.set(0)
          self.num = 0
          self.numbers = []
@@ -111,10 +111,10 @@ class Calculator:
       
       if self.bool(string):
        
-       self.label.config(text = f"{num1}")
+       self.label.configure(text = f"{num1}")
       elif True:
        
-       self.label.config(text= self.splitString + f"{num1}") 
+       self.label.configure(text= self.splitString + f"{num1}") 
       else:
         pass   
       
@@ -140,7 +140,7 @@ class Calculator:
          self.numbers.pop(index+1)
          self.operation.pop(index)
            
-      self.label.config(text = f"{self.numbers[0]}")
+      self.label.configure(text = f"{self.numbers[0]}")
       
       # self.int.set(self.numbers[0])
       self.num = self.numbers[0]
